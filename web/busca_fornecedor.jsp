@@ -277,7 +277,7 @@ a.a:link {
      if((acao.equals("1")) && (tipo != null) && (filtro != null)){
 
          List listarFor = fornecedor.listar(tipo, filtro);
-         Iterator listarIterator = listarFor.iterator();
+         Iteratorgddfdf listarIterator = listarFor.iterator();
          lFornecedor listar;
 
          while(listarIterator.hasNext()){
