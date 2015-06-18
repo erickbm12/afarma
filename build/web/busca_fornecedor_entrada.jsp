@@ -1,5 +1,5 @@
 <%-- 
-    Document   : busca_fornecedor
+    Document   : busca_fornecedor_entrada
     Created on : 03/06/2015, 19:32:45
     Author     : Erick Medeiros
 --%>
@@ -8,6 +8,7 @@
 <script type="text/javascript" src="js/validaBusca.js"></script>
 <%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.*,com.afarma.listas.*"%>
 <jsp:useBean id="fornecedor" scope="page" class="com.afarma.controle.Fornecedor"/>
+<jsp:useBean id="entrada" scope="session" class="com.afarma.controle.Entrada"/>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -15,7 +16,7 @@
      Boolean logado = (Boolean) session.getAttribute("Logado");
 
      if(logado != null){
-        if( !logado ){
+        if(!logado){
 %>
         <jsp:forward page="logar.jsp" />
 
@@ -36,12 +37,20 @@
     if(acao == null){
         acao = new  String();
     }
-
-////////////////////////////// excluir \\\\\\\\\\\\\\\\\\\\\\\\
+////////////////////////////// instanciar uma nova entrada \\\\\\\\\\\\\\\\\\\\\\\\
      if(acao.equals("2")){
-       fornecedor.excluirFornecedor(idFornecedor);
+       entrada.setnItens(0);
+       entrada.settEntrada(0.0);
+       entrada.setStatusEntrada("nova");
+       entrada.setApoioIdFor(idFornecedor);
+       entrada.setDataApoio(entrada.recuperarDataServidor());
+       %>
+      <jsp:forward page="entrada_produtos.jsp">
+          <jsp:param name="id_fornecedor"    value="<%= idFornecedor %>"/>
+      </jsp:forward>
+       <%
          }
-////////////////////////////// fim excluir \\\\\\\\\\\\\\\\\\\\\\\\
+////////////////////////////// fim instanciar uma nova entrada \\\\\\\\\\\\\\\\\\\\\\\\
 
 %>
 
@@ -184,11 +193,12 @@ a.a:link {
     <td bgcolor="#00CACE">&nbsp;</td>
     <td>&nbsp;</td>
   </tr>
+
   <tr>
     <td colspan="5" valign="top"><div align="center"><fieldset>
-    <legend class="formato_label"> Busca Fornecedor: </legend>
+    <legend class="formato_label"> Busca Fornecedor para Entrada de Produtos: </legend>
     <legend class="formato_label"></legend>
-      <form id="form1" name="formBusca" method="post" action="busca_fornecedor.jsp?acao=1">
+      <form id="form1" name="formBusca" method="post" action="busca_fornecedor_entrada.jsp?acao=1">
 
         <table width="579" border="0" align="center" cellpadding="0" cellspacing="0">
           <tr>
@@ -204,7 +214,7 @@ a.a:link {
 
               <td class="formato_label">
 
-                <input class="inputstyle" type="radio" name="tipo"  value="1" onclick="descLabelFornecedor(this.form)" >
+                <input class="inputstyle" type="radio" name="tipo"  value="1" onclick="descLabelFornecedor(this.form)" checked="true">
               ID
                 <br>
                 <input class="inputstyle" type="radio" name="tipo"  value="2" onclick="descLabelFornecedor(this.form)" checked="true">
@@ -218,7 +228,8 @@ a.a:link {
             </td>
 
             <td align="center" class="formato_label"> OU </td>
-            <td align="center" ><a href="cadastrar_fornecedores.jsp"><font size="5" color="#000000">NOVO FORNECEDOR</font></a></td>
+            <td align="center" ><a href="cadastrar_fornecedores.jsp"><font size="4" color="#000000">NOVO FORNECEDOR</font></a><br/>
+                                <a href="busca_entradas.jsp"><font size="4" color="#000000">BUSCAR ENTRADA</font></a></td>
             <td>&nbsp;</td>
           </tr>
           <tr>
@@ -244,10 +255,16 @@ a.a:link {
 
           </tr>
 
+
+          <tr>
+            <td>&nbsp;</td>
+            <td class="formato_label">&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
           <tr>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-
             <td>&nbsp;</td>
             <td>&nbsp;</td>
           </tr>
@@ -289,18 +306,14 @@ a.a:link {
                             <td align="left" class="formato_label"><%=listar.getNome()%> </td>
                             <td align="left" class="formato_label"><%=listar.getRazaoSocial()%> </td>
                             <td align="left" class="formato_label"><%=listar.getEmail()%></td>
-                            <td align="left" class="formato_label"><a  
-                           title="Alterar:<%=listar.getNome()%>" 
-                           href="cadastrar_fornecedores.jsp?acao=3&id_fornecedor=<%=listar.getIdFornecedor()%>">
-                           <img src="IMG/edit.png" alt="editar" style="border: 0"/></a>&nbsp;&nbsp;
-                           <img src="IMG/erase.png"  alt="excluir" title="Excluir: <%=listar.getNome()%>" onclick="excluirFornecedor(<%=listar.getIdFornecedor()%>,'<%=listar.getNome()%>');"/>
-
+                            <td align="center" class="formato_label">
+                                <img src="IMG/calculator.png"  alt="Entrada" title="Entrada do Fornecedor:<%=listar.getNome()%>" onclick="novaEntrada(<%=listar.getIdFornecedor()%>);"/>
                             </td>
                         </tr>
 
                         <%
 
-                                               }
+                        }
                     }
 
                         %>

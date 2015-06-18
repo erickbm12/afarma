@@ -1,5 +1,5 @@
 <%-- 
-    Document   : busca_fornecedor
+    Document   : busca_entradas
     Created on : 03/06/2015, 19:32:45
     Author     : Erick Medeiros
 --%>
@@ -7,7 +7,7 @@
 
 <script type="text/javascript" src="js/validaBusca.js"></script>
 <%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.*,com.afarma.listas.*"%>
-<jsp:useBean id="fornecedor" scope="page" class="com.afarma.controle.Fornecedor"/>
+<jsp:useBean id="venda" scope="page" class="com.afarma.controle.Venda"/>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -15,7 +15,7 @@
      Boolean logado = (Boolean) session.getAttribute("Logado");
 
      if(logado != null){
-        if( !logado ){
+        if(!logado){
 %>
         <jsp:forward page="logar.jsp" />
 
@@ -25,23 +25,22 @@
 
 
      String acao  = "0";
-     String tipo  = "";
-     String filtro="";
-     String idFornecedor="";
+     String cpf    ="";
+     String filtro1="";
+     String filtro2="";
+
      acao   = request.getParameter("acao");
-     tipo   = request.getParameter("tipo");
-     filtro = request.getParameter("editConteudo");
-     idFornecedor = request.getParameter("id_fornecedor");
+     cpf     = request.getParameter("editConteudo");
+     filtro1 = request.getParameter("editDeLoc");
+     filtro2 = request.getParameter("editParaLoc");
+
+
+
 
     if(acao == null){
         acao = new  String();
     }
 
-////////////////////////////// excluir \\\\\\\\\\\\\\\\\\\\\\\\
-     if(acao.equals("2")){
-       fornecedor.excluirFornecedor(idFornecedor);
-         }
-////////////////////////////// fim excluir \\\\\\\\\\\\\\\\\\\\\\\\
 
 %>
 
@@ -49,7 +48,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>::BUSCA DE FORNECEDOR::</title>
+        <title>::BUSCA DE VENDAS PARA EMITIR NOTA FISCAL::</title>
 
 
         <style type="text/css">
@@ -147,7 +146,7 @@ a.a:link {
 -->
         </style>
  </head>
- <body onload="setarTipoCliFor()">
+ <body onload="setarTipoLocEmissaoNotaFiscal()">
 <table width="775" border="0" align="center" cellpadding="0" cellspacing="0" >
   <tr>
     <td width="151">&nbsp;</td>
@@ -184,11 +183,12 @@ a.a:link {
     <td bgcolor="#00CACE">&nbsp;</td>
     <td>&nbsp;</td>
   </tr>
+
   <tr>
     <td colspan="5" valign="top"><div align="center"><fieldset>
-    <legend class="formato_label"> Busca Fornecedor: </legend>
+    <legend class="formato_label"> Busca de Vendas Para Emitir Nota Fiscal: </legend>
     <legend class="formato_label"></legend>
-      <form id="form1" name="formBusca" method="post" action="busca_fornecedor.jsp?acao=1">
+      <form id="form1" name="formBuscaVenda" method="post" action="busca_venda_EmissaoNotaFiscal.jsp?acao=1">
 
         <table width="579" border="0" align="center" cellpadding="0" cellspacing="0">
           <tr>
@@ -202,23 +202,10 @@ a.a:link {
               <%--  <td>&nbsp;</td>
             <td>&nbsp;</td> --%>
 
-              <td class="formato_label">
+              <td class="formato_label"> &nbsp; </td>
 
-                <input class="inputstyle" type="radio" name="tipo"  value="1" onclick="descLabelFornecedor(this.form)" >
-              ID
-                <br>
-                <input class="inputstyle" type="radio" name="tipo"  value="2" onclick="descLabelFornecedor(this.form)" checked="true">
-              CNPJ
-                <br>
-                <input class="inputstyle" type="radio" name="tipo"  value="3" onclick="descLabelFornecedor(this.form)">
-              Nome Fantasia
-                <br>
-                <input class="inputstyle" type="radio" name="tipo"  value="4" onclick="descLabelFornecedor(this.form)">
-              Razão Social
-            </td>
-
-            <td align="center" class="formato_label"> OU </td>
-            <td align="center" ><a href="cadastrar_fornecedores.jsp"><font size="5" color="#000000">NOVO FORNECEDOR</font></a></td>
+              <td align="center" class="formato_label" colspan="2" style="color: #FF0000">  &nbsp; </td>
+            
             <td>&nbsp;</td>
           </tr>
           <tr>
@@ -230,24 +217,39 @@ a.a:link {
           <tr>
 
               <td colspan="4"><label>
-                    <label class="formato_label"  id="descRadio">Digite o CNPJ do Fornecedor:</label><br>
+                    <label class="formato_label"  id="descRadio">Digite o CPF do Cliente e Informe o Período:</label><br>
                     <input class="inputstyle" type="text" size="40%"
-                           name="editConteudo" id="editConteudo" maxlength="50"
-                           onkeyup="removeCaractresSpeciais(this);"
-                           onKeyPress="mascara(this,soNumerosIDCliFor);">
-              <input class="innputstyle" type="button" name="Submit"  value=" Busca  " onclick="enviar(this.form)"/>
+                           name="editConteudo" id="editConteudo" maxlength="11"
+                           onKeyPress="mascara(this,soNumeros)">
+
+                    <input class="inputstyle" type="text" size="10"
+                           name="editDeLoc" id="editDeLoc" maxlength="10"
+                           onkeypress="mascara(this, dataMascara);"
+                           onblur="doDate(this.value, 5);"> &nbsp;
+
+                    <input class="inputstyle" type="text" size="10"
+                           name="editParaLoc" id="editParaLoc" maxlength="10"
+                           onkeypress="mascara(this, dataMascara);"
+                           onblur="doDate(this.value, 5);">
+              <input class="innputstyle" type="button" name="Submit"  value=" Busca  " onclick="enviarLocComDatasNF(this.form)"/>
               <input class="innputstyle" type="reset"  name="reset" id="reset" value="Cancelar"/>
-              <input type="button" name="voltar"  id="voltar" title="Clique para voltar à janela Anterior"  value="    Voltar  " class="innputstyle" onclick="javascript: window.history.go(-1);"/>
+              <input class="innputstyle" type="button"  name="voltar"  id="voltar" title="Clique para voltar à janela Anterior"  value="Voltar" onclick="javascript: window.history.go(-1);"/>
                 </label>
 
             </td>
 
           </tr>
 
+
+          <tr>
+            <td>&nbsp;</td>
+            <td class="formato_label">&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
           <tr>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-
             <td>&nbsp;</td>
             <td>&nbsp;</td>
           </tr>
@@ -255,14 +257,17 @@ a.a:link {
             <td colspan="4"><div align="center">
                 <table width="579" border="0" cellpadding="0" cellspacing="0">
                   <tr>
-                    <td><table width="579" border="0" frame="hsides" rules="rows"
+                    <td><table width="930" border="0" frame="hsides" rules="rows"
                                bordercolor="#ff0000">
                         <tr>
-                          <td width="101"><div align="right" class="formato_label"><strong>ID</strong></div></td>
-                          <td width="252"><div align="left" class="formato_label"><strong>Nome Fantasia</strong></div></td>
-                          <td width="252"><div align="left" class="formato_label"><strong>Razão Social</strong></div></td>
-                          <td width="204"><div align="left" class="formato_label"><strong>E-mail</strong></div></td>
-                          <td width="204"><div align="left" class="formato_label"><strong>Manutenção </strong></div></td>
+                          <td width="80"><div align="right" class="formato_label"><strong>ID</strong></div></td>
+                          <td width="200"><div align="left" class="formato_label"><strong>Nome</strong></div></td>
+                          <td width="80"><div align="right" class="formato_label"><strong>N. Itens</strong></div></td>
+                          <td width="130"><div align="right" class="formato_label"><strong>Total Itens</strong></div></td>
+                          <td width="130"><div align="right" class="formato_label"><strong>Desconto</strong></div></td>
+                          <td width="130"><div align="right" class="formato_label"><strong>Total Venda</strong></div></td>
+                          <td width="80"><div align="right" class="formato_label"><strong>Data</strong></div></td>
+                          <td width="100"><div align="left" class="formato_label"><strong>Manutenção </strong></div></td>
                         </tr>
                         <tr>
                           <td>&nbsp;</td>
@@ -274,33 +279,34 @@ a.a:link {
 
 <%
 
-     if((acao.equals("1")) && (tipo != null) && (filtro != null)){
+     if(acao.equals("1")){
 
-         List listarFor = fornecedor.listar(tipo, filtro);
-         Iterator listarIterator = listarFor.iterator();
-         lFornecedor listar;
+         List listarVend = venda.listar(4, filtro1, filtro2, cpf);
+         Iterator listarIterator = listarVend.iterator();
+         lVendas listar;
 
          while(listarIterator.hasNext()){
-         listar = (lFornecedor) listarIterator.next();
+         listar = (lVendas) listarIterator.next();
 
 %>
                         <tr>
-                            <td><div align="right" class="formato_label"><%=String.format("%03d",listar.getIdFornecedor())%></div></td>
+                            <td><div align="right" class="formato_label"><%=String.format("%03d",listar.getIdVenda())%></div></td>
                             <td align="left" class="formato_label"><%=listar.getNome()%> </td>
-                            <td align="left" class="formato_label"><%=listar.getRazaoSocial()%> </td>
-                            <td align="left" class="formato_label"><%=listar.getEmail()%></td>
-                            <td align="left" class="formato_label"><a  
-                           title="Alterar:<%=listar.getNome()%>" 
-                           href="cadastrar_fornecedores.jsp?acao=3&id_fornecedor=<%=listar.getIdFornecedor()%>">
-                           <img src="IMG/edit.png" alt="editar" style="border: 0"/></a>&nbsp;&nbsp;
-                           <img src="IMG/erase.png"  alt="excluir" title="Excluir: <%=listar.getNome()%>" onclick="excluirFornecedor(<%=listar.getIdFornecedor()%>,'<%=listar.getNome()%>');"/>
-
+                            <td align="right" class="formato_label"><%=String.format("%03d",listar.getnItens())%></td>
+                            <td align="right" class="formato_label"><% out.write(venda.recuperarValorMoedaFormatado(listar.gettItens())); %></td>
+                            <td align="right" class="formato_label"><% out.write(venda.recuperarValorMoedaFormatado(listar.getDesconto())); %></td>
+                            <td align="right" class="formato_label"><% out.write(venda.recuperarValorMoedaFormatado(listar.gettVendas())); %></td>
+                            <td align="right" class="formato_label"><%= listar.getDataVenda() %></td>
+                            <td align="center" class="formato_label"><a
+                           title="Emitir Nota Fiscal:<%=listar.getIdVenda()%>  <%=listar.getNome()%>"
+                           href="emissao_NotaFiscal.jsp?id_notaFiscal=<%=listar.getIdVenda()%>">
+                           <img src="IMG/print.png" alt="Emitir Nota" style="border: 0"/></a>
                             </td>
                         </tr>
 
                         <%
 
-                                               }
+                        }
                     }
 
                         %>

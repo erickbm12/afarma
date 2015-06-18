@@ -1,5 +1,5 @@
 <%-- 
-    Document   : busca_fornecedor
+    Document   : busca_entradas
     Created on : 03/06/2015, 19:32:45
     Author     : Erick Medeiros
 --%>
@@ -8,6 +8,7 @@
 <script type="text/javascript" src="js/validaBusca.js"></script>
 <%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.*,com.afarma.listas.*"%>
 <jsp:useBean id="fornecedor" scope="page" class="com.afarma.controle.Fornecedor"/>
+<jsp:useBean id="entrada" scope="session" class="com.afarma.controle.Entrada"/>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -15,7 +16,7 @@
      Boolean logado = (Boolean) session.getAttribute("Logado");
 
      if(logado != null){
-        if( !logado ){
+        if(!logado){
 %>
         <jsp:forward page="logar.jsp" />
 
@@ -26,12 +27,15 @@
 
      String acao  = "0";
      String tipo  = "";
-     String filtro="";
-     String idFornecedor="";
+     String filtro1="";
+     String filtro2="";
+     String idEntrada="";
      acao   = request.getParameter("acao");
      tipo   = request.getParameter("tipo");
-     filtro = request.getParameter("editConteudo");
-     idFornecedor = request.getParameter("id_fornecedor");
+     filtro1 = request.getParameter("editConteudo");
+     filtro2 = request.getParameter("editParaLoc");
+     idEntrada = request.getParameter("id_entrada");
+     entrada.setStatusEntrada("localizar");
 
     if(acao == null){
         acao = new  String();
@@ -39,7 +43,13 @@
 
 ////////////////////////////// excluir \\\\\\\\\\\\\\\\\\\\\\\\
      if(acao.equals("2")){
-       fornecedor.excluirFornecedor(idFornecedor);
+
+         String idEntradaLoc = "";
+         idEntradaLoc = request.getParameter("id_entrada");
+         if(idEntradaLoc!=null)
+         entrada.excluir(idEntradaLoc);
+
+
          }
 ////////////////////////////// fim excluir \\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -49,7 +59,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>::BUSCA DE FORNECEDOR::</title>
+        <title>::BUSCA DE ENTRADAS::</title>
 
 
         <style type="text/css">
@@ -147,7 +157,7 @@ a.a:link {
 -->
         </style>
  </head>
- <body onload="setarTipoCliFor()">
+ <body onload="setarTipo()">
 <table width="775" border="0" align="center" cellpadding="0" cellspacing="0" >
   <tr>
     <td width="151">&nbsp;</td>
@@ -184,11 +194,12 @@ a.a:link {
     <td bgcolor="#00CACE">&nbsp;</td>
     <td>&nbsp;</td>
   </tr>
+
   <tr>
     <td colspan="5" valign="top"><div align="center"><fieldset>
-    <legend class="formato_label"> Busca Fornecedor: </legend>
+    <legend class="formato_label"> Busca de Entradas: </legend>
     <legend class="formato_label"></legend>
-      <form id="form1" name="formBusca" method="post" action="busca_fornecedor.jsp?acao=1">
+      <form id="form1" name="formBuscaEntrada" method="post" action="busca_entradas.jsp?acao=1">
 
         <table width="579" border="0" align="center" cellpadding="0" cellspacing="0">
           <tr>
@@ -204,21 +215,18 @@ a.a:link {
 
               <td class="formato_label">
 
-                <input class="inputstyle" type="radio" name="tipo"  value="1" onclick="descLabelFornecedor(this.form)" >
-              ID
+                <input class="inputstyle" type="radio" name="tipo"  value="1" onclick="descLabelEntradas(this.form)" checked="true">
+              ID Entrada
                 <br>
-                <input class="inputstyle" type="radio" name="tipo"  value="2" onclick="descLabelFornecedor(this.form)" checked="true">
-              CNPJ
-                <br>
-                <input class="inputstyle" type="radio" name="tipo"  value="3" onclick="descLabelFornecedor(this.form)">
+                <input class="inputstyle" type="radio" name="tipo"  value="2" onclick="descLabelEntradas(this.form)">
               Nome Fantasia
                 <br>
-                <input class="inputstyle" type="radio" name="tipo"  value="4" onclick="descLabelFornecedor(this.form)">
-              Razão Social
+                <input class="inputstyle" type="radio" name="tipo"  value="3" onclick="descLabelEntradas(this.form)">
+              Período
             </td>
 
-            <td align="center" class="formato_label"> OU </td>
-            <td align="center" ><a href="cadastrar_fornecedores.jsp"><font size="5" color="#000000">NOVO FORNECEDOR</font></a></td>
+            <td align="center" class="formato_label"> </td>
+            <td align="center" ></td>
             <td>&nbsp;</td>
           </tr>
           <tr>
@@ -230,24 +238,37 @@ a.a:link {
           <tr>
 
               <td colspan="4"><label>
-                    <label class="formato_label"  id="descRadio">Digite o CNPJ do Fornecedor:</label><br>
+                    <label class="formato_label"  id="descRadio">Digite o ID da Entrada:</label><br>
                     <input class="inputstyle" type="text" size="40%"
                            name="editConteudo" id="editConteudo" maxlength="50"
-                           onkeyup="removeCaractresSpeciais(this);"
-                           onKeyPress="mascara(this,soNumerosIDCliFor);">
-              <input class="innputstyle" type="button" name="Submit"  value=" Busca  " onclick="enviar(this.form)"/>
+                           onblur="if(document.forms[0].tipo[2].checked){doDate(this.value, 5)}"
+                           onkeyup="if(document.forms[0].tipo[1].checked){removeCaractresSpeciais(this)};"
+                           onKeyPress="if(document.forms[0].tipo[0].checked){mascara(this,soNumeros)}
+                                       if(document.forms[0].tipo[2].checked){mascara(this, dataMascara)}">
+                    <input class="inputstyle" type="text" size="10"
+                           name="editParaLoc" id="editParaLoc" maxlength="10"
+                           readonly="true"
+                           onkeypress="mascara(this, dataMascara);"
+                           onblur="doDate(this.value, 5);">
+              <input class="innputstyle" type="button" name="Submit"  value=" Busca  " onclick="enviarLocComDatas(this.form)"/>
               <input class="innputstyle" type="reset"  name="reset" id="reset" value="Cancelar"/>
-              <input type="button" name="voltar"  id="voltar" title="Clique para voltar à janela Anterior"  value="    Voltar  " class="innputstyle" onclick="javascript: window.history.go(-1);"/>
+              <input class="innputstyle" type="button"  name="voltar"  id="voltar" title="Clique para voltar à janela Anterior"  value="Voltar" onclick="javascript: window.history.go(-1);"/>
                 </label>
 
             </td>
 
           </tr>
 
+
+          <tr>
+            <td>&nbsp;</td>
+            <td class="formato_label">&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
           <tr>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-
             <td>&nbsp;</td>
             <td>&nbsp;</td>
           </tr>
@@ -260,9 +281,10 @@ a.a:link {
                         <tr>
                           <td width="101"><div align="right" class="formato_label"><strong>ID</strong></div></td>
                           <td width="252"><div align="left" class="formato_label"><strong>Nome Fantasia</strong></div></td>
-                          <td width="252"><div align="left" class="formato_label"><strong>Razão Social</strong></div></td>
-                          <td width="204"><div align="left" class="formato_label"><strong>E-mail</strong></div></td>
-                          <td width="204"><div align="left" class="formato_label"><strong>Manutenção </strong></div></td>
+                          <td width="100"><div align="right" class="formato_label"><strong>N. Itens</strong></div></td>
+                          <td width="130"><div align="right" class="formato_label"><strong>Total Entrada</strong></div></td>
+                          <td width="80"><div align="right" class="formato_label"><strong>Data</strong></div></td>
+                          <td width="100"><div align="left" class="formato_label"><strong>Manutenção </strong></div></td>
                         </tr>
                         <tr>
                           <td>&nbsp;</td>
@@ -274,33 +296,33 @@ a.a:link {
 
 <%
 
-     if((acao.equals("1")) && (tipo != null) && (filtro != null)){
+     if((acao.equals("1")) && (tipo != null) && (filtro1 != null)){
 
-         List listarFor = fornecedor.listar(tipo, filtro);
-         Iterator listarIterator = listarFor.iterator();
-         lFornecedor listar;
+         List listarEnt = entrada.listar(Integer.parseInt(tipo), filtro1, filtro2);
+         Iterator listarIterator = listarEnt.iterator();
+         lEntradas listar;
 
          while(listarIterator.hasNext()){
-         listar = (lFornecedor) listarIterator.next();
+         listar = (lEntradas) listarIterator.next();
 
 %>
                         <tr>
-                            <td><div align="right" class="formato_label"><%=String.format("%03d",listar.getIdFornecedor())%></div></td>
+                            <td><div align="right" class="formato_label"><%=String.format("%03d",listar.getIdEntrada())%></div></td>
                             <td align="left" class="formato_label"><%=listar.getNome()%> </td>
-                            <td align="left" class="formato_label"><%=listar.getRazaoSocial()%> </td>
-                            <td align="left" class="formato_label"><%=listar.getEmail()%></td>
-                            <td align="left" class="formato_label"><a  
-                           title="Alterar:<%=listar.getNome()%>" 
-                           href="cadastrar_fornecedores.jsp?acao=3&id_fornecedor=<%=listar.getIdFornecedor()%>">
+                            <td align="right" class="formato_label"><%=String.format("%03d",listar.getnItens())%></td>
+                            <td align="right" class="formato_label"><% out.write(entrada.recuperarValorMoedaFormatado(listar.gettTotal())); %></td>
+                            <td align="right" class="formato_label"><%= listar.getDataEntrada() %></td>
+                            <td align="center" class="formato_label"><a
+                           title="Alterar Entrada:<%=listar.getIdEntrada()%>  <%=listar.getNome()%>"
+                           href="entrada_produtos.jsp?acao=3&id_entrada=<%=listar.getIdEntrada()%>">
                            <img src="IMG/edit.png" alt="editar" style="border: 0"/></a>&nbsp;&nbsp;
-                           <img src="IMG/erase.png"  alt="excluir" title="Excluir: <%=listar.getNome()%>" onclick="excluirFornecedor(<%=listar.getIdFornecedor()%>,'<%=listar.getNome()%>');"/>
-
+                           <img src="IMG/erase.png"  alt="Entrada" title="Excluir Entrada do Fornecedor:<%=listar.getIdEntrada()%> <%=listar.getNome()%>" onclick="excluirEntrada(<%=listar.getIdEntrada()%>,'<%=listar.getNome()%>');"/>
                             </td>
                         </tr>
 
                         <%
 
-                                               }
+                        }
                     }
 
                         %>

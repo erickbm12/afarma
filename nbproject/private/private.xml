@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1">
+        <file>
+            <url>web/cadastrar_funcionarios.jsp</url>
+            <line>41</line>
+            <line>189</line>
+            <line>207</line>
+            <line>414</line>
+        </file>
+        <file>
+            <url>web/cadastrar_clientes.jsp</url>
+            <line>39</line>
+            <line>324</line>
+        </file>
+        <file>
+            <url>src/java/com/farmatads/controle/Fornecedor.java</url>
+            <line>318</line>
+        </file>
+        <file>
+            <url>web/busca_fornecedor.jsp</url>
+            <line>302</line>
+        </file>
+        <file>
+            <url>web/cadastrar_fornecedores.jsp</url>
+            <line>160</line>
+            <line>326</line>
+        </file>
+        <file>
+            <url>web/venda_produtos.jsp</url>
+            <line>391</line>
+            <line>467</line>
+            <line>505</line>
+            <line>581</line>
+        </file>
+        <file>
+            <url>web/cadastrar_produtos.jsp</url>
+            <line>182</line>
+            <line>310</line>
+        </file>
+        <file>
+            <url>src/java/com/farmatads/controle/Venda.java</url>
+            <line>648</line>
+            <line>724</line>
+            <line>771</line>
+        </file>
+        <file>
+            <url>web/busca.jsp</url>
+            <line>205</line>
+            <line>256</line>
+        </file>
+        <file>
+            <url>src/java/com/farmatads/controle/Funcionario.java</url>
+            <line>309</line>
+        </file>
+        <file>
+            <url>web/busca_funcionario.jsp</url>
+            <line>31</line>
+        </file>
+        <file>
+            <url>src/java/com/farmatads/controle/Cliente.java</url>
+            <line>342</line>
+        </file>
+        <file>
+            <url>web/entrada_produtos.jsp</url>
+            <line>298</line>
+            <line>366</line>
+            <line>449</line>
+        </file>
+        <file>
+            <url>web/js/validaCadastros.js</url>
+            <line>387</line>
+        </file>
+    </editor-bookmarks>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0">
+        <file>
+            <url>web/busca_fornecedor.jsp</url>
+            <bookmark id="0">
+                <name/>
+                <line>302</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/js/validaCadastros.js</url>
+            <bookmark id="0">
+                <name/>
+                <line>387</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/java/com/farmatads/controle/Funcionario.java</url>
+            <bookmark id="0">
+                <name/>
+                <line>309</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/cadastrar_produtos.jsp</url>
+            <bookmark id="0">
+                <name/>
+                <line>182</line>
+                <key/>
+            </bookmark>
+            <bookmark id="0">
+                <name/>
+                <line>310</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/java/com/farmatads/controle/Fornecedor.java</url>
+            <bookmark id="0">
+                <name/>
+                <line>318</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/java/com/farmatads/controle/Venda.java</url>
+            <bookmark id="0">
+                <name/>
+                <line>648</line>
+                <key/>
+            </bookmark>
+            <bookmark id="0">
+                <name/>
+                <line>724</line>
+                <key/>
+            </bookmark>
+            <bookmark id="0">
+                <name/>
+                <line>771</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/entrada_produtos.jsp</url>
+            <bookmark id="0">
+                <name/>
+                <line>298</line>
+                <key/>
+            </bookmark>
+            <bookmark id="0">
+                <name/>
+                <line>366</line>
+                <key/>
+            </bookmark>
+            <bookmark id="0">
+                <name/>
+                <line>449</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/venda_produtos.jsp</url>
+            <bookmark id="0">
+                <name/>
+                <line>391</line>
+                <key/>
+            </bookmark>
+            <bookmark id="0">
+                <name/>
+                <line>467</line>
+                <key/>
+            </bookmark>
+            <bookmark id="0">
+                <name/>
+                <line>505</line>
+                <key/>
+            </bookmark>
+            <bookmark id="0">
+                <name/>
+                <line>581</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/busca.jsp</url>
+            <bookmark id="0">
+                <name/>
+                <line>205</line>
+                <key/>
+            </bookmark>
+            <bookmark id="0">
+                <name/>
+                <line>256</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/cadastrar_fornecedores.jsp</url>
+            <bookmark id="0">
+                <name/>
+                <line>160</line>
+                <key/>
+            </bookmark>
+            <bookmark id="0">
+                <name/>
+                <line>326</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/java/com/farmatads/controle/Cliente.java</url>
+            <bookmark id="0">
+                <name/>
+                <line>342</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/cadastrar_clientes.jsp</url>
+            <bookmark id="0">
+                <name/>
+                <line>39</line>
+                <key/>
+            </bookmark>
+            <bookmark id="0">
+                <name/>
+                <line>324</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/cadastrar_funcionarios.jsp</url>
+            <bookmark id="0">
+                <name/>
+                <line>41</line>
+                <key/>
+            </bookmark>
+            <bookmark id="0">
+                <name/>
+                <line>189</line>
+                <key/>
+            </bookmark>
+            <bookmark id="0">
+                <name/>
+                <line>207</line>
+                <key/>
+            </bookmark>
+            <bookmark id="0">
+                <name/>
+                <line>414</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/busca_funcionario.jsp</url>
+            <bookmark id="0">
+                <name/>
+                <line>31</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/Erick%20Medeiros/Documents/NetBeansProjects/Projeto%20afarma/afarma/web/busca_fornecedor.jsp</file>
+        </group>
+    </open-files>
+</project-private>

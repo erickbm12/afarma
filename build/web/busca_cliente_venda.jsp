@@ -1,5 +1,5 @@
 <%-- 
-    Document   : busca_fornecedor
+    Document   : busca_cliente
     Created on : 03/06/2015, 19:32:45
     Author     : Erick Medeiros
 --%>
@@ -7,15 +7,16 @@
 
 <script type="text/javascript" src="js/validaBusca.js"></script>
 <%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.*,com.afarma.listas.*"%>
-<jsp:useBean id="fornecedor" scope="page" class="com.afarma.controle.Fornecedor"/>
+<jsp:useBean id="cliente" scope="page" class="com.afarma.controle.Cliente"/>
+<jsp:useBean id="venda" scope="session" class="com.afarma.controle.Venda"/>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
 
 <%
      Boolean logado = (Boolean) session.getAttribute("Logado");
 
-     if(logado != null){
-        if( !logado ){
+     if(logado != null ){
+        if(!logado){
 %>
         <jsp:forward page="logar.jsp" />
 
@@ -27,29 +28,46 @@
      String acao  = "0";
      String tipo  = "";
      String filtro="";
-     String idFornecedor="";
+     String idCliente="";
      acao   = request.getParameter("acao");
      tipo   = request.getParameter("tipo");
      filtro = request.getParameter("editConteudo");
-     idFornecedor = request.getParameter("id_fornecedor");
+     idCliente = request.getParameter("id_cliente");
 
     if(acao == null){
         acao = new  String();
     }
 
-////////////////////////////// excluir \\\\\\\\\\\\\\\\\\\\\\\\
+////////////////////////////// instanciar um nova venda \\\\\\\\\\\\\\\\\\\\\\\\
      if(acao.equals("2")){
-       fornecedor.excluirFornecedor(idFornecedor);
-         }
-////////////////////////////// fim excluir \\\\\\\\\\\\\\\\\\\\\\\\
+       cliente.instanciarCliente(idCliente);
+       venda.setApoioPontos(cliente.getNumeroPontos());
+       venda.setIdVenda(0);
+       venda.setnItens(0);
+       venda.settItens(0.0);
+       venda.settVenda(0.0);
+       venda.setDesconto(0.0);
+       venda.setStatusVenda("nova");
+       venda.setFormaPgto("00");
+       venda.setApoioIdCli(idCliente);
+       venda.setDataApoio(venda.recuperarDataServidor());
+       venda.setnPedidosAbertos(0);
+       venda.setEmailFuncPedidosAberto("");
 
+       %>
+      <jsp:forward page="venda_produtos.jsp">
+          <jsp:param name="id_cliente"    value="<%= idCliente %>"/>
+      </jsp:forward>
+       <%
+         }
+////////////////////////////// fim instanciar um nova venda \\\\\\\\\\\\\\\\\\\\\\\\
 %>
 
 
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>::BUSCA DE FORNECEDOR::</title>
+        <title>::BUSCA DE CLIENTES PARA VENDER::</title>
 
 
         <style type="text/css">
@@ -148,7 +166,7 @@ a.a:link {
         </style>
  </head>
  <body onload="setarTipoCliFor()">
-<table width="775" border="0" align="center" cellpadding="0" cellspacing="0" >
+<table width="776" border="0" align="center" cellpadding="0" cellspacing="0" >
   <tr>
     <td width="151">&nbsp;</td>
     <td width="159">&nbsp;</td>
@@ -184,15 +202,16 @@ a.a:link {
     <td bgcolor="#00CACE">&nbsp;</td>
     <td>&nbsp;</td>
   </tr>
+
   <tr>
     <td colspan="5" valign="top"><div align="center"><fieldset>
-    <legend class="formato_label"> Busca Fornecedor: </legend>
+    <legend class="formato_label"> Busca Cliente para Vender : </legend>
     <legend class="formato_label"></legend>
-      <form id="form1" name="formBusca" method="post" action="busca_fornecedor.jsp?acao=1">
+      <form id="form1" name="formBusca" method="post" action="busca_cliente_venda.jsp?acao=1">
 
         <table width="579" border="0" align="center" cellpadding="0" cellspacing="0">
           <tr>
-            <td width="150">&nbsp;</td>
+            <td width="110">&nbsp;</td>
             <td width="84" class="formato_label">&nbsp;</td>
             <td width="241">&nbsp;</td>
             <td width="144">&nbsp;</td>
@@ -202,23 +221,23 @@ a.a:link {
               <%--  <td>&nbsp;</td>
             <td>&nbsp;</td> --%>
 
-              <td class="formato_label">
+            <td class="formato_label">
 
-                <input class="inputstyle" type="radio" name="tipo"  value="1" onclick="descLabelFornecedor(this.form)" >
+                <input class="inputstyle" type="radio" name="tipo"  value="1" onclick="descLabel(this.form)" checked="true">
               ID
                 <br>
-                <input class="inputstyle" type="radio" name="tipo"  value="2" onclick="descLabelFornecedor(this.form)" checked="true">
-              CNPJ
+                <input class="inputstyle" type="radio" name="tipo"  value="2" onclick="descLabelCliente(this.form)" checked="true">
+              CPF
                 <br>
-                <input class="inputstyle" type="radio" name="tipo"  value="3" onclick="descLabelFornecedor(this.form)">
-              Nome Fantasia
-                <br>
-                <input class="inputstyle" type="radio" name="tipo"  value="4" onclick="descLabelFornecedor(this.form)">
-              Razão Social
+                <input class="inputstyle" type="radio" name="tipo"  value="3" onclick="descLabel(this.form)">
+              Nome
             </td>
 
             <td align="center" class="formato_label"> OU </td>
-            <td align="center" ><a href="cadastrar_fornecedores.jsp"><font size="5" color="#000000">NOVO FORNECEDOR</font></a></td>
+            <td align="center" >
+                <a href="cadastrar_clientes.jsp"><font size="4" color="#000000">NOVO CLIENTE</font></a><br/>
+                <a href="busca_venda.jsp"><font size="4" color="#000000">BUSCAR VENDA</font></a>
+            </td>
             <td>&nbsp;</td>
           </tr>
           <tr>
@@ -230,12 +249,12 @@ a.a:link {
           <tr>
 
               <td colspan="4"><label>
-                    <label class="formato_label"  id="descRadio">Digite o CNPJ do Fornecedor:</label><br>
+                    <label class="formato_label"  id="descRadio">Digite o CFP do Cliente:</label><br>
                     <input class="inputstyle" type="text" size="40%"
                            name="editConteudo" id="editConteudo" maxlength="50"
                            onkeyup="removeCaractresSpeciais(this);"
                            onKeyPress="mascara(this,soNumerosIDCliFor);">
-              <input class="innputstyle" type="button" name="Submit"  value=" Busca  " onclick="enviar(this.form)"/>
+              <input class="innputstyle" type="button" name="Submit"  value=" Busca " onclick="enviar(this.form)"/>
               <input class="innputstyle" type="reset"  name="reset" id="reset" value="Cancelar"/>
               <input type="button" name="voltar"  id="voltar" title="Clique para voltar à janela Anterior"  value="    Voltar  " class="innputstyle" onclick="javascript: window.history.go(-1);"/>
                 </label>
@@ -252,17 +271,17 @@ a.a:link {
             <td>&nbsp;</td>
           </tr>
           <tr>
+          <tr>
             <td colspan="4"><div align="center">
                 <table width="579" border="0" cellpadding="0" cellspacing="0">
                   <tr>
                     <td><table width="579" border="0" frame="hsides" rules="rows"
                                bordercolor="#ff0000">
                         <tr>
-                          <td width="101"><div align="right" class="formato_label"><strong>ID</strong></div></td>
-                          <td width="252"><div align="left" class="formato_label"><strong>Nome Fantasia</strong></div></td>
-                          <td width="252"><div align="left" class="formato_label"><strong>Razão Social</strong></div></td>
+                            <td width="101"><div align="right" class="formato_label"><strong>ID</strong></div></td>
+                          <td width="252"><div align="left" class="formato_label"><strong>Nome</strong></div></td>
                           <td width="204"><div align="left" class="formato_label"><strong>E-mail</strong></div></td>
-                          <td width="204"><div align="left" class="formato_label"><strong>Manutenção </strong></div></td>
+                          <td width="204"><div align="left" class="formato_label"><strong>Vender</strong></div></td>
                         </tr>
                         <tr>
                           <td>&nbsp;</td>
@@ -276,31 +295,26 @@ a.a:link {
 
      if((acao.equals("1")) && (tipo != null) && (filtro != null)){
 
-         List listarFor = fornecedor.listar(tipo, filtro);
-         Iterator listarIterator = listarFor.iterator();
-         lFornecedor listar;
+         List listarCli = cliente.listar(tipo, filtro);
+         Iterator listarIterator = listarCli.iterator();
+         lCliente listar;
 
          while(listarIterator.hasNext()){
-         listar = (lFornecedor) listarIterator.next();
+         listar = (lCliente) listarIterator.next();
 
 %>
                         <tr>
-                            <td><div align="right" class="formato_label"><%=String.format("%03d",listar.getIdFornecedor())%></div></td>
+                            <td><div align="right" class="formato_label"><%=String.format("%03d",listar.getId_Cliente())%></div></td>
                             <td align="left" class="formato_label"><%=listar.getNome()%> </td>
-                            <td align="left" class="formato_label"><%=listar.getRazaoSocial()%> </td>
                             <td align="left" class="formato_label"><%=listar.getEmail()%></td>
-                            <td align="left" class="formato_label"><a  
-                           title="Alterar:<%=listar.getNome()%>" 
-                           href="cadastrar_fornecedores.jsp?acao=3&id_fornecedor=<%=listar.getIdFornecedor()%>">
-                           <img src="IMG/edit.png" alt="editar" style="border: 0"/></a>&nbsp;&nbsp;
-                           <img src="IMG/erase.png"  alt="excluir" title="Excluir: <%=listar.getNome()%>" onclick="excluirFornecedor(<%=listar.getIdFornecedor()%>,'<%=listar.getNome()%>');"/>
-
+                            <td align="left" class="formato_label">
+                            <img src="IMG/vend.png"  alt="Vender" title="Venda para o Cliente: <%=listar.getNome()%>" onclick="novaVenda(<%=listar.getId_Cliente()%>);"/>
                             </td>
                         </tr>
 
                         <%
 
-                                               }
+                        }
                     }
 
                         %>
