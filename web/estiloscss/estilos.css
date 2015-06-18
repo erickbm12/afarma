@@ -1,0 +1,80 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+	background-color: #00CACE;
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+.style3 {
+	font-size: 10px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+.style4 {color: #FFFFFF}
+.help   {color: #FF0000}
+
+.inputstyle {
+	font-family: tahoma;
+	font-size: 10px;
+	font-weight: normal;
+	color: #0000FF;
+	background-color: #E2EDEB;
+	border: 1px solid #0000FF;
+}
+a:link {
+	color: #FFFFFF;
+	font-family: tahoma;
+	font-size: 10px;
+	font-weight: normal;
+	text-decoration: none;
+
+}
+a:visited {
+	color: #FFFFFF;
+	font-family: tahoma;
+	font-size: 10px;
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: none;
+
+}
+
+a:hover {
+	color: #0000FF;
+	font-family: tahoma;
+	font-size: 10px;
+	font-weight: normal;
+	font-style: normal;
+	line-height: normal;
+	font-variant: normal;
+	text-transform: none;
+	text-decoration: underline;
+}
+
+a.a:link {
+	font-family: tahoma;
+	font-size: 10px;
+	font-weight: normal;
+	color: 632210;
+	text-decoration: underline;
+}
+.dr {
+	font-family: tahoma;
+	font-size: 10px;
+	font-weight: bolder;
+	color: #FFFFFF;
+}
+.div_menu {
+	font-family: tahoma;
+	font-size: 10px;
+	font-weight: bolder;
+	color: #FFFFFF;
+}
+.formato_label {
+	color: #0000FF;
+	font-weight: bold;
+	font-size: 16px;
+}
